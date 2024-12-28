@@ -1,0 +1,35 @@
+CREATE TABLE Participants (
+    participant_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100),
+    organization VARCHAR(100),
+    role ENUM('participant', 'admin'),
+    QR_code VARCHAR(255)
+);
+
+CREATE TABLE Tracks (
+    track_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100),
+    description TEXT
+);
+
+CREATE TABLE Sessions (
+    session_id INT AUTO_INCREMENT PRIMARY KEY,
+    track_id INT,
+    title VARCHAR(100),
+    speaker VARCHAR(100),
+    time DATETIME,
+    venue VARCHAR(100),
+    capacity INT,
+    registered_count INT DEFAULT 0,
+    FOREIGN KEY (track_id) REFERENCES Tracks(track_id)
+);
+
+CREATE TABLE Attendance (
+    attendance_id INT AUTO_INCREMENT PRIMARY KEY,
+    participant_id INT,
+    session_id INT,
+    check_in_time DATETIME,
+    FOREIGN KEY (participant_id) REFERENCES Participants(participant_id),
+    FOREIGN KEY (session_id) REFERENCES Sessions(session_id)
+);
